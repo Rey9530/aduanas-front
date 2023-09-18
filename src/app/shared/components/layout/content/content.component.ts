@@ -7,8 +7,7 @@ import { fadeInAnimation } from "../../../data/router-animation/router-animation
 
 @Component({
   selector: "app-content",
-  templateUrl: "./content.component.html",
-  styleUrls: ["./content.component.scss"],
+  templateUrl: "./content.component.html", 
   animations: [fadeInAnimation],
 })
 export class ContentComponent implements OnInit, AfterViewInit {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
+import { AuthService } from "src/app/core/services";
 
 @Component({
   selector: "app-login",
@@ -9,19 +10,23 @@ import { Router } from "@angular/router";
 })
 export class LoginComponent implements OnInit {
   public newUser = false;
-  // public user: firebase.User;
+  // public user: firebase.User; 
   public loginForm: FormGroup;
   public show: boolean = false
   public errorMessage: any;
 
-  constructor(private fb: FormBuilder, public router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    public router: Router,
+    public authService: AuthService,
+  ) {
     this.loginForm = this.fb.group({
       email: ["Test@gmail.com", [Validators.required, Validators.email]],
       password: ["test123", Validators.required],
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   login() {
     if (this.loginForm.value["email"] == "Test@gmail.com" && this.loginForm.value["password"] == "test123") {
@@ -30,12 +35,15 @@ export class LoginComponent implements OnInit {
         password: "test123",
         name: "test user",
       };
-      localStorage.setItem("user", JSON.stringify(user));
-      this.router.navigate(["/dashboard/default"]);
+      this.authService.login(user).subscribe({
+        next: (value) => { 
+          this.router.navigate(["/dashboard"]);
+        },
+      }); 
     }
   }
 
-  showPassword(){
+  showPassword() {
     this.show = !this.show
   }
 }

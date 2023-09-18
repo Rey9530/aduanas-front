@@ -1,29 +1,34 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ContentComponent } from "./shared/components/layout/content/content.component";
-import { FullComponent } from "./shared/components/layout/full/full.component";
-import { full } from "./shared/routes/full.routes";
+import { ContentComponent } from "./shared/components/layout/content/content.component"; 
 import { content } from "./shared/routes/routes";
+import { AuthGuard, NoAuthGuard } from "./core/guards/";
 
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "simple-page/first-page",
+    redirectTo: "auth",
     pathMatch: "full",
-  },
+  }, 
   {
-    path: "",
+    path: "auth",
+    loadChildren: () =>
+      import("./auth/auth.module").then((m) => m.AuthModule),
+      canActivate: [NoAuthGuard],
+  },
+  
+  {
+    path: "dashboard",
     component: ContentComponent,
-    children: content
-
+    loadChildren: () =>
+      import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
+      canActivate: [AuthGuard],
   },
-  {
-    path: "",
-    component: FullComponent,
-    children: full
-
-
-  },
+  // {
+  //   path: "",
+  //   component: ContentComponent,
+  //   children: content 
+  // }, 
   {
     path: "**",
     redirectTo: "",
@@ -41,4 +46,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

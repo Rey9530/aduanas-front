@@ -16,15 +16,13 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 import { CookieService } from 'ngx-cookie-service';
 
-import { AppComponent } from './app.component';
-import { LoginComponent } from './auth/login/login.component';
+import { AppComponent } from './app.component'; 
 
 import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
+    AppComponent, 
   ],
   imports: [
     BrowserModule,
